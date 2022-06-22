@@ -5,32 +5,34 @@ namespace App\Entity;
 use App\Model\TimeLoggableInterface;
 use App\Repository\AttractionRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\MappedSuperclass;
 
 #[ORM\Entity(repositoryClass: AttractionRepository::class)]
+#[ORM\MappedSuperclass]
 class Attraction implements TimeLoggableInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    protected $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $name;
+    protected $name;
 
     #[ORM\Column(type: 'string', length: 512, nullable: true)]
-    private $shortDescription;
+    protected $shortDescription;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private $fullDescription;
+    protected $fullDescription;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $score;
+    protected $score;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    private $createdAt;
+    protected $createdAt;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    private $updatedAt;
+    protected $updatedAt;
 
     public function getId(): ?int
     {

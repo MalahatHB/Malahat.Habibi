@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
+use App\Model\TimeLoggableInterface;
 use App\Repository\AttractionRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AttractionRepository::class)]
-class Attraction
+class Attraction implements TimeLoggableInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

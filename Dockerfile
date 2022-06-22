@@ -11,6 +11,12 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 # install git
 RUN apt-get -y update && apt-get -y install git
 
+# install mysql driver
+RUN docker-php-ext-install pdo_mysql
+
+# install npm
+RUN apt-get -y install nodejs npm
+RUN npm install --global yarn
 
 # install xdebug
 # https://hub.docker.com/_/php

@@ -2,15 +2,21 @@
 
 namespace App\Entity;
 
-use App\Model\TimeLoggableInterface;
 use App\Repository\MessageRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use App\Model\TimeLoggerInterface;
+use App\Model\UserLoggerInterface;
+use App\Model\TimeLoggerTrait;
+use App\Model\UserLoggerTrait;
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
-class Message implements TimeLoggableInterface
+class Message implements TimeLoggerInterface, UserLoggerInterface
 {
+
+    use UserLoggerTrait;
+    use TimeLoggerTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -23,14 +29,6 @@ class Message implements TimeLoggableInterface
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank()]
     private $sender;
-
-    #[ORM\Column(type: 'datetime_immutable')]
-    #[Assert\NotNull()]
-    private $createdAt;
-
-    #[ORM\Column(type: 'datetime_immutable')]
-    #[Assert\NotNull()]
-    private $updatedAt;
 
     public function getId(): ?int
     {
@@ -57,30 +55,6 @@ class Message implements TimeLoggableInterface
     public function setSender(string $sender): self
     {
         $this->sender = $sender;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeImmutable
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
 
         return $this;
     }

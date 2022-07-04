@@ -32,16 +32,13 @@ services:
         tags:
             - { name: knp_menu.menu, alias: main }
 
-    App\Listener\TimeLogListener:
+    App\Listener\TimeLoggerListener:
         tags:
-            -
-                name: 'doctrine.event_listener'
-                event: 'pretPersist'
-                priority: 500
-                connection: 'default'
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }
 
-            -
-                name: 'doctrine.event_listener'
-                event: 'pretUpdate'
-                priority: 500
-                connection: 'default'
+
+    App\Listener\UserLoggerListener:
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }

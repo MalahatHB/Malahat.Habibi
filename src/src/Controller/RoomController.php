@@ -29,8 +29,7 @@ class RoomController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $roomRepository->add($room, true);
-
+            $roomRepository->add($room);
             return $this->redirectToRoute('app_room_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -55,8 +54,7 @@ class RoomController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $roomRepository->add($room, true);
-
+            $roomRepository->add($room);
             return $this->redirectToRoute('app_room_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -70,7 +68,7 @@ class RoomController extends AbstractController
     public function delete(Request $request, Room $room, RoomRepository $roomRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$room->getId(), $request->request->get('_token'))) {
-            $roomRepository->remove($room, true);
+            $roomRepository->remove($room);
         }
 
         return $this->redirectToRoute('app_room_index', [], Response::HTTP_SEE_OTHER);

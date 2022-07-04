@@ -2,20 +2,23 @@
 
 namespace App\Entity;
 
-use App\Model\TimeLoggableInterface;
 use App\Repository\HotelRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Model\TimeLoggerInterface;
+use App\Model\UserLoggerInterface;
+use App\Model\TimeLoggerTrait;
+use App\Model\UserLoggerTrait;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 
-#[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false, hardDelete: true)]
 #[ORM\Entity(repositoryClass: HotelRepository::class)]
-class Hotel implements TimeLoggableInterface
+#[Gedmo\SoftDeleteable(fieldName: "deletedAt")]
+class Hotel implements TimeLoggerInterface, UserLoggerInterface
 {
-    use SoftDeleteableEntity;
+    use TimeLoggerTrait;
+    use UserLoggerTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -32,14 +35,12 @@ class Hotel implements TimeLoggableInterface
     #[Assert\Length(min:3)]
     private $address;
 
-    #[ORM\Column(type: 'datetime_immutable')]
-    private $createdAt;
-
-    #[ORM\Column(type: 'datetime_immutable')]
-    private $updatedAt;
-
     #[ORM\OneToMany(mappedBy: 'hotel', targetEntity: Room::class, orphanRemoval: true)]
     private $rooms;
+
+
+    #[ORM\Column(type: "datetime", nullable: true)]
+    private $deletedAt;
 
     public function __construct()
     {
@@ -81,28 +82,12 @@ class Hotel implements TimeLoggableInterface
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
+    public function getDeletedAt(){
+        return $this->deletedAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeImmutable
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
+    public function setDeletedAt($deletedAt){
+        $this->deletedAt = $deletedAt;
     }
 
     /**

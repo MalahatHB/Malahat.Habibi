@@ -6,25 +6,22 @@ use App\Repository\LocationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LocationRepository::class)]
+#[ORM\MappedSuperclass]
 class Location extends Attraction
 {
-    #[ORM\Column(type: 'string', length: 255)]
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $longitude;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $latitude;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getLongitude(): ?string
     {
         return $this->longitude;
     }
 
-    public function setLongitude(string $longitude): self
+    public function setLongitude(?string $longitude): self
     {
         $this->longitude = $longitude;
 
@@ -36,7 +33,7 @@ class Location extends Attraction
         return $this->latitude;
     }
 
-    public function setLatitude(string $latitude): self
+    public function setLatitude(?string $latitude): self
     {
         $this->latitude = $latitude;
 

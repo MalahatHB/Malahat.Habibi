@@ -2,37 +2,35 @@
 
 namespace App\Entity;
 
-use App\Model\TimeLoggableInterface;
 use App\Repository\AttractionRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\MappedSuperclass;
+use App\Model\TimeLoggerInterface;
+use App\Model\UserLoggerInterface;
+use App\Model\TimeLoggerTrait;
+use App\Model\UserLoggerTrait;
 
 #[ORM\Entity(repositoryClass: AttractionRepository::class)]
-#[ORM\MappedSuperclass]
-class Attraction implements TimeLoggableInterface
+class Attraction implements TimeLoggerInterface, UserLoggerInterface
 {
+    use TimeLoggerTrait;
+    use UserLoggerTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    protected $id;
+    private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    protected $name;
+    private $name;
 
     #[ORM\Column(type: 'string', length: 512, nullable: true)]
-    protected $shortDescription;
+    private $shortDescription;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    protected $fullDescription;
+    private $fullDescription;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    protected $score;
-
-    #[ORM\Column(type: 'datetime_immutable')]
-    protected $createdAt;
-
-    #[ORM\Column(type: 'datetime_immutable')]
-    protected $updatedAt;
+    private $score;
 
     public function getId(): ?int
     {
@@ -83,30 +81,6 @@ class Attraction implements TimeLoggableInterface
     public function setScore(?int $score): self
     {
         $this->score = $score;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeImmutable
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
 
         return $this;
     }

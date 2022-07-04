@@ -6,55 +6,51 @@ use App\Repository\EventRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EventRepository::class)]
+#[ORM\MappedSuperclass]
 class Event extends Attraction
 {
-    #[ORM\ManyToOne(targetEntity: User::class)]
-    #[ORM\JoinColumn(nullable: false)]
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $organizer;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
-    private $startDatetime;
+    private $startDate;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
-    private $endDatetime;
+    private $endDate;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function getOrganizer(): ?User
+    public function getOrganizer(): ?string
     {
         return $this->organizer;
     }
 
-    public function setOrganizer(?User $organizer): self
+    public function setOrganizer(?string $organizer): self
     {
         $this->organizer = $organizer;
 
         return $this;
     }
 
-    public function getStartDatetime(): ?\DateTimeInterface
+    public function getStartDate(): ?\DateTimeInterface
     {
-        return $this->startDatetime;
+        return $this->startDate;
     }
 
-    public function setStartDatetime(?\DateTimeInterface $startDatetime): self
+    public function setStartDate(?\DateTimeInterface $startDate): self
     {
-        $this->startDatetime = $startDatetime;
+        $this->startDate = $startDate;
 
         return $this;
     }
 
-    public function getEndDatetime(): ?\DateTimeInterface
+    public function getEndDate(): ?\DateTimeInterface
     {
-        return $this->endDatetime;
+        return $this->endDate;
     }
 
-    public function setEndDatetime(?\DateTimeInterface $endDatetime): self
+    public function setEndDate(?\DateTimeInterface $endDate): self
     {
-        $this->endDatetime = $endDatetime;
+        $this->endDate = $endDate;
 
         return $this;
     }

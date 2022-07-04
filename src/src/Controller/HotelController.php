@@ -28,12 +28,7 @@ class HotelController extends AbstractController {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $hotel->setCreatedAt(new \DateTimeImmutable());
-            $hotel->setUpdatedAt(new \DateTimeImmutable());
-
             $hotelRepository->add($hotel);
-
             return $this->redirectToRoute('app_hotel_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -67,10 +62,7 @@ class HotelController extends AbstractController {
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $hotel->setUpdatedAt(new \DateTimeImmutable());
-
             $hotelRepository->add($hotel);
-
             return $this->redirectToRoute('app_hotel_index', [], Response::HTTP_SEE_OTHER);
         }
 

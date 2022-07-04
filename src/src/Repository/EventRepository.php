@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Event;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,46 +23,56 @@ class EventRepository extends ServiceEntityRepository
         parent::__construct($registry, Event::class);
     }
 
-    public function add(Event $entity, bool $flush = false): void
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function add(Event $entity, bool $flush = true): void
     {
-        $this->getEntityManager()->persist($entity);
-
+        $this->_em->persist($entity);
         if ($flush) {
-            $this->getEntityManager()->flush();
+            $this->_em->flush();
         }
     }
 
-    public function remove(Event $entity, bool $flush = false): void
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function remove(Event $entity, bool $flush = true): void
     {
-        $this->getEntityManager()->remove($entity);
-
+        $this->_em->remove($entity);
         if ($flush) {
-            $this->getEntityManager()->flush();
+            $this->_em->flush();
         }
     }
 
-//    /**
-//     * @return Event[] Returns an array of Event objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('e.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    // /**
+    //  * @return Event[] Returns an array of Event objects
+    //  */
+    /*
+    public function findByExampleField($value)
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.exampleField = :val')
+            ->setParameter('val', $value)
+            ->orderBy('e.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+    */
 
-//    public function findOneBySomeField($value): ?Event
-//    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    /*
+    public function findOneBySomeField($value): ?Event
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.exampleField = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+    */
 }

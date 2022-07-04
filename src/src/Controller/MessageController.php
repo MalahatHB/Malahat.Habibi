@@ -26,9 +26,6 @@ class MessageController extends AbstractController
     {
         $message = new Message();
 
-        $message->setCreatedAt(new \DateTimeImmutable());
-        $message->setUpdatedAt(new \DateTimeImmutable());
-
         $form = $this->createForm(MessageType::class, $message);
         $form->handleRequest($request);
 

@@ -21,7 +21,7 @@ class DashboardController extends AbstractDashboardController
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
-        return parent::index();
+        return $this->render('admin/index.html.twig');
     }
 
     public function configureDashboard(): Dashboard
@@ -40,12 +40,12 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToDashboard('Dashboard', 'fa fa-home'),
             MenuItem::section('Menu'),
             MenuItem::linkToCrud('Event', 'fa fa-tags', Event::class),
-            MenuItem::linkToCrud('Attraction', 'fa fa-file-text', Attraction::class),
-            MenuItem::linkToCrud('Hotel', 'fa fa-file-text', Hotel::class),
-            MenuItem::linkToCrud('Location', 'fa fa-file-text', Location::class),
-            MenuItem::linkToCrud('Message', 'fa fa-file-text', Message::class),
-            MenuItem::linkToCrud('Room', 'fa fa-file-text', Room::class),
-            MenuItem::linkToCrud('User', 'fa fa-file-text', User::class),
+            MenuItem::linkToCrud('Attraction', 'fa-solid fa-tree', Attraction::class),
+            MenuItem::linkToCrud('Hotel', 'fa-solid fa-hotel', Hotel::class),
+            MenuItem::linkToCrud('Location', 'fa-solid fa-location-dot', Location::class),
+            MenuItem::linkToCrud('Message', 'fa-solid fa-message', Message::class),
+            MenuItem::linkToCrud('Room', 'fa-solid fa-door-closed', Room::class),
+            MenuItem::linkToCrud('User', 'fa-solid fa-user', User::class),
             ];
     }
 }

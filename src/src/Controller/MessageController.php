@@ -10,10 +10,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/message')]
 class MessageController extends AbstractController
 {
-    #[Route('/', name: 'app_message_index', methods: ['GET'])]
+    /**
+     * @Route("/{_locale}/message", name=app_message_index, methods={"GET"}, defaults={"_locale":"en"}, requirements={"_locale":"en|de"})
+     */
     public function index(MessageRepository $messageRepository): Response
     {
         return $this->render('message/index.html.twig', [
@@ -21,7 +22,9 @@ class MessageController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_message_new', methods: ['GET', 'POST'])]
+    /**
+     * @Route("/{_locale}/message/new", name=app_message_new, methods={"GET", "POST"}, defaults={"_locale":"en"}, requirements={"_locale":"en|de"})
+     */
     public function new(Request $request, MessageRepository $messageRepository): Response
     {
         $message = new Message();
@@ -41,7 +44,9 @@ class MessageController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_message_show', methods: ['GET'])]
+    /**
+     * @Route("/{_locale}/message/{id}", name=app_message_show, methods={"GET"}, defaults={"_locale":"en"}, requirements={"_locale":"en|de"})
+     */
     public function show(Message $message): Response
     {
         return $this->render('message/show.html.twig', [
@@ -49,7 +54,9 @@ class MessageController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_message_edit', methods: ['GET', 'POST'])]
+    /**
+     * @Route("/{_locale}/message/{id}/edit", name=app_message_edit, methods={"GET", "POST"}, defaults={"_locale":"en"}, requirements={"_locale":"en|de"})
+     */
     public function edit(Request $request, Message $message, MessageRepository $messageRepository): Response
     {
         $message->setUpdatedAt(new \DateTimeImmutable());
@@ -69,7 +76,9 @@ class MessageController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_message_delete', methods: ['POST'])]
+    /**
+     * @Route("/{_locale}/message/{id}", name=app_message_delete, methods={"POST"}, defaults={"_locale":"en"}, requirements={"_locale":"en|de"})
+     */
     public function delete(Request $request, Message $message, MessageRepository $messageRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$message->getId(), $request->request->get('_token'))) {

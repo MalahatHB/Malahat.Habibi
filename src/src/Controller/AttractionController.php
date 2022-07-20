@@ -14,7 +14,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AttractionController extends AbstractController
 {
-    #[Route('/attractions', name: 'app_attraction')]
+    /**
+     * @Route("/{_locale}/attractions", name="app_attraction", defaults={"_locale":"en"}, requirements={"_locale":"en|de"})
+     */
     public function index(AttractionRepository $attractionRepository): Response
     {
         $attractions = $attractionRepository->findAll();
@@ -24,7 +26,9 @@ class AttractionController extends AbstractController
     }
 
 
-    #[Route('/attraction/new', name: 'app_attraction_new')]
+    /**
+     * @Route("/{_locale}/attractions/new", name="app_attraction_new", defaults={"_locale":"en"}, requirements={"_locale":"en|de"})
+     */
     public function new(Request $request, AttractionRepository $attractionRepository): Response
     {
 
@@ -48,7 +52,9 @@ class AttractionController extends AbstractController
     }
 
 
-    #[Route('/attraction/edit/{id}', name: 'app_attraction_edit')]
+    /**
+     * @Route("/{_locale}/attractions/edit/{id}", name="app_attraction_edit", defaults={"_locale":"en"}, requirements={"_locale":"en|de"})
+     */
     public function edit(Request $request, AttractionRepository $attractionRepository,Attraction $attraction, EntityManagerInterface $entityManager): Response
     {
         if ($request->isMethod("POST")) {

@@ -8,7 +8,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AboutController extends AbstractController
 {
-    #[Route('/about', name: 'app_about')]
+    /**
+     * @Route("/{_locale}/about", name="app_about", defaults={"_locale":"en"}, requirements={"_locale":"en|de"})
+     */
     public function index(): Response
     {
         return $this->render('about/index.html.twig');

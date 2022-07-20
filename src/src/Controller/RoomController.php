@@ -10,10 +10,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/room')]
 class RoomController extends AbstractController
 {
-    #[Route('/', name: 'app_room_index', methods: ['GET'])]
+    /**
+     * @Route("/{_locale}/room", name=app_room_index, methods={"GET"}, defaults={"_locale":"en"}, requirements={"_locale":"en|de"})
+     */
     public function index(RoomRepository $roomRepository): Response
     {
         return $this->render('room/index.html.twig', [
@@ -21,7 +22,9 @@ class RoomController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_room_new', methods: ['GET', 'POST'])]
+    /**
+     * @Route("/{_locale}/room/new", name=app_room_new, methods={"GET", "POST"}, defaults={"_locale":"en"}, requirements={"_locale":"en|de"})
+     */
     public function new(Request $request, RoomRepository $roomRepository): Response
     {
         $room = new Room();
@@ -39,7 +42,9 @@ class RoomController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_room_show', methods: ['GET'])]
+    /**
+     * @Route("/{_locale}/room/{id}", name=app_room_show, methods={"GET"}, defaults={"_locale":"en"}, requirements={"_locale":"en|de"})
+     */
     public function show(Room $room): Response
     {
         return $this->render('room/show.html.twig', [
@@ -47,7 +52,9 @@ class RoomController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_room_edit', methods: ['GET', 'POST'])]
+    /**
+     * @Route("/{_locale}/room/{id}/edit", name=app_room_edit, methods={"GET", "POST"}, defaults={"_locale":"en"}, requirements={"_locale":"en|de"})
+     */
     public function edit(Request $request, Room $room, RoomRepository $roomRepository): Response
     {
         $form = $this->createForm(RoomType::class, $room);
@@ -64,7 +71,9 @@ class RoomController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_room_delete', methods: ['POST'])]
+    /**
+     * @Route("/{_locale}/room/{id}", name=app_room_delete, methods={"POST"}, defaults={"_locale":"en"}, requirements={"_locale":"en|de"})
+     */
     public function delete(Request $request, Room $room, RoomRepository $roomRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$room->getId(), $request->request->get('_token'))) {
